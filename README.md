@@ -5,8 +5,8 @@ Minimal Docusaurus template with multi-instance docs.
 ## Quick Start
 
 ```bash
-npm install
-npm start
+bun install
+bun run start
 ```
 
 ## Project Structure
@@ -55,15 +55,15 @@ Site URL: `https://{owner}.github.io/{repo}/`
 
 ```bash
 # Check for updates
-npm outdated
+bun outdated
 
 # Update all Docusaurus packages
-npm install @docusaurus/core@latest @docusaurus/preset-classic@latest \
+bun install @docusaurus/core@latest @docusaurus/preset-classic@latest \
             @docusaurus/faster@latest @docusaurus/module-type-aliases@latest \
             @docusaurus/tsconfig@latest @docusaurus/types@latest
 
 # Test build
-npm run clear && npm run build
+bun run clear && bun run build
 ```
 
 ## Environment Variables
