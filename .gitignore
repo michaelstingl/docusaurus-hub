@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# External docs (checked out in CI)
+external/
+
 # Build output
 build/
 .docusaurus/

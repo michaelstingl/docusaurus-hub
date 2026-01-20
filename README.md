@@ -44,6 +44,21 @@ echo "# SDK Documentation" > content/sdk/intro.md
 
 Done. Sidebar + navbar appear automatically.
 
+## External Docs (from other repos)
+
+Include docs from external repositories:
+
+```ts
+// docs.config.ts
+{ id: 'ingestor', path: '../../other-org/other-repo/docs', route: '/ingestor', label: 'Ingestor' },
+```
+
+**Local development:** Clone the external repo and use relative path.
+
+**CI:** Add checkout step in workflow (see deploy.yml).
+
+> **Note:** Symlinks are [not supported by Docusaurus](https://github.com/facebook/docusaurus/issues/6257) and will cause crashes. Use relative or absolute paths instead.
+
 ## Deploy to GitHub Pages
 
 1. Repository Settings → Pages → Source: "GitHub Actions"

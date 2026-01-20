@@ -19,5 +19,6 @@ export const docs: DocsInstance[] = [
   { id: 'docs', path: 'content/docs', route: '/', label: 'Docs' },
   { id: 'api', path: 'content/api', route: '/api', label: 'API' },
   { id: 'guides', path: 'content/guides', route: '/guides', label: 'Guides' },
-  // { id: 'sdk', path: '../sdk-repo/docs', route: '/sdk', label: 'SDK' },
+  // External repo example:
+  // { id: 'external', path: '../../org/repo/docs', route: '/external', label: 'External' },
 ];
