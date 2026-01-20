@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Build output
+build/
+.docusaurus/
+
+# Environment
+.env
+.env.local
+
+# System
+.DS_Store
+
+# Logs
+npm-debug.log*
