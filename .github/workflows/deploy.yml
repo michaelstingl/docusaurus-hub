@@ -30,9 +30,18 @@ jobs:
       - name: Set site URL
         id: url
         run: |
-          if [ -n "${{ github.event.repository.homepage }}" ]; then
-            echo "site=${{ github.event.repository.homepage }}" >> $GITHUB_OUTPUT
-            echo "base=/" >> $GITHUB_OUTPUT
+          HOMEPAGE="${{ github.event.repository.homepage }}"
+          if [ -n "$HOMEPAGE" ]; then
+            # Extract origin (protocol + domain) from homepage
+            SITE_URL=$(echo "$HOMEPAGE" | sed -E 's|(https?://[^/]+).*|\1|')
+            # Check if it's a custom domain (not github.io)
+            if [[ "$SITE_URL" != *".github.io"* ]]; then
+              echo "site=$SITE_URL" >> $GITHUB_OUTPUT
+              echo "base=/" >> $GITHUB_OUTPUT
+            else
+              echo "site=https://${{ github.repository_owner }}.github.io" >> $GITHUB_OUTPUT
+              echo "base=/${{ github.event.repository.name }}/" >> $GITHUB_OUTPUT
+            fi
           else
             echo "site=https://${{ github.repository_owner }}.github.io" >> $GITHUB_OUTPUT
             echo "base=/${{ github.event.repository.name }}/" >> $GITHUB_OUTPUT
