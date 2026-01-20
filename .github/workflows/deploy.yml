@@ -27,14 +27,32 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
+      - name: Set site URL
+        id: url
+        run: |
+          if [ -n "${{ github.event.repository.homepage }}" ]; then
+            echo "site=${{ github.event.repository.homepage }}" >> $GITHUB_OUTPUT
+            echo "base=/" >> $GITHUB_OUTPUT
+          else
+            echo "site=https://${{ github.repository_owner }}.github.io" >> $GITHUB_OUTPUT
+            echo "base=/${{ github.event.repository.name }}/" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build
         env:
-          SITE_URL: https://${{ github.repository_owner }}.github.io
-          BASE_URL: /${{ github.event.repository.name }}/
+          SITE_URL: ${{ steps.url.outputs.site }}
+          BASE_URL: ${{ steps.url.outputs.base }}
           SITE_TITLE: ${{ github.event.repository.name }}
           SITE_TAGLINE: ${{ github.event.repository.description }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: bun run build
+
+      - name: Generate robots.txt
+        run: |
+          echo "User-agent: *" > build/robots.txt
+          echo "Allow: /" >> build/robots.txt
+          echo "" >> build/robots.txt
+          echo "Sitemap: ${{ steps.url.outputs.site }}${{ steps.url.outputs.base }}sitemap.xml" >> build/robots.txt
 
       - uses: actions/upload-pages-artifact@v3
         with:
