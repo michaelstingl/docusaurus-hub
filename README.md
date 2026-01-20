@@ -51,6 +51,21 @@ Done. Sidebar + navbar appear automatically.
 
 Site URL: `https://{owner}.github.io/{repo}/`
 
+## Update Docusaurus
+
+```bash
+# Check for updates
+npm outdated
+
+# Update all Docusaurus packages
+npm install @docusaurus/core@latest @docusaurus/preset-classic@latest \
+            @docusaurus/faster@latest @docusaurus/module-type-aliases@latest \
+            @docusaurus/tsconfig@latest @docusaurus/types@latest
+
+# Test build
+npm run clear && npm run build
+```
+
 ## Environment Variables
 
 All optional. Set in `.env` locally or auto-configured in GitHub Actions.
