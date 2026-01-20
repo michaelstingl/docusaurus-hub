@@ -1,6 +1,6 @@
 # Docusaurus Template
 
-Minimal Docusaurus 3.9 template with multi-instance docs.
+Minimal Docusaurus template with multi-instance docs.
 
 ## Quick Start
 
