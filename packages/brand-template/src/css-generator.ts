@@ -132,10 +132,10 @@ export function generateBrandCss(config: BrandConfig): string {
 }
 `;
 
-  // Dark navbar styling
+  // Navbar styling based on config
   if (config.navbar === 'dark') {
     css += `
-/* Dark navbar */
+/* Dark navbar - light text on dark background */
 .navbar {
   background-color: var(--brand-primary);
 }
@@ -159,7 +159,40 @@ export function generateBrandCss(config: BrandConfig): string {
   color: var(--brand-accent);
 }
 `;
+  } else if (config.navbar === 'light') {
+    css += `
+/* Light navbar - dark text on light background */
+.navbar {
+  background-color: #FFFFFF;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.navbar__title,
+.navbar__link {
+  font-family: var(--ifm-heading-font-family);
+  color: var(--brand-primary) !important;
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  color: var(--brand-accent) !important;
+}
+
+.navbar .clean-btn {
+  color: var(--brand-primary);
+}
+
+.navbar .clean-btn:hover {
+  color: var(--brand-accent);
+}
+
+/* Light navbar in dark mode */
+[data-theme='dark'] .navbar {
+  background-color: var(--ifm-background-surface-color);
+}
+`;
   }
+  // 'auto' = no custom navbar CSS, uses Docusaurus defaults (follows theme)
 
   return css;
 }
