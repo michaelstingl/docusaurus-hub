@@ -25,6 +25,12 @@ jobs:
 
       - uses: oven-sh/setup-bun@v2
 
+      - name: Build brand package
+        run: |
+          cd packages/brand-template
+          bun install
+          bun run build
+
       - run: bun install --frozen-lockfile
 
       - name: Set site URL
