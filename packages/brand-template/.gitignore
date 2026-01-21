@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Lockfiles (use parent repo's)
+bun.lockb
+package-lock.json

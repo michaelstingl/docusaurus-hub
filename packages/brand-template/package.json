@@ -1,0 +1,41 @@
+{
+  "name": "@example/docusaurus-brand",
+  "version": "1.0.0",
+  "description": "Example Docusaurus brand package - customize colors, fonts, and navbar style",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./css": "./dist/css/brand.css",
+    "./theme/*": "./dist/theme/*",
+    "./assets/*": "./dist/assets/*"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build:css": "bun src/generate-css.ts",
+    "build:ts": "tsc",
+    "build:assets": "mkdir -p dist/assets dist/theme && cp src/assets/* dist/assets/ && cp src/theme/* dist/theme/",
+    "build": "bun run clean && bun run build:css && bun run build:ts && bun run build:assets",
+    "prepublishOnly": "bun run build"
+  },
+  "keywords": [
+    "docusaurus",
+    "theme",
+    "brand",
+    "css"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "~5.6.2"
+  },
+  "peerDependencies": {
+    "@docusaurus/core": "^3.0.0"
+  }
+}
