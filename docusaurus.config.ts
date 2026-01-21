@@ -32,6 +32,9 @@ const config: Config = {
   future: { v4: true, experimental_faster: true },
   i18n: { defaultLocale: 'en', locales: ['en'] },
 
+  // Initialize color mode from OS preference on first visit (2-way toggle)
+  clientModules: ['./src/theme/ColorModeInit.js'],
+
   presets: [
     [
       'classic',
@@ -62,9 +65,13 @@ const config: Config = {
   ]),
 
   themeConfig: {
-    colorMode: { respectPrefersColorScheme: true },
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: false,  // 2-way toggle; OS preference via ColorModeInit
+    },
     navbar: {
-      title: SITE_TITLE,
+      title: '',  // Empty: logo is sufficient, first nav item shows context
       logo: { alt: 'Logo', src: 'img/logo.svg', srcDark: 'img/logo.svg' },
       items: [
         ...docs.map((doc, i) => ({

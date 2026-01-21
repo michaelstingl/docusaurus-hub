@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "docusaurus start",
-    "build": "docusaurus build",
+    "brand": "bun scripts/generate-brand-css.ts",
+    "start": "bun run brand && docusaurus start",
+    "build": "bun run brand && docusaurus build",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "typecheck": "tsc"

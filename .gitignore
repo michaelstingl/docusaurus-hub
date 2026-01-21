@@ -8,6 +8,9 @@ external/
 build/
 .docusaurus/
 
+# Generated files
+src/css/brand.generated.css
+
 # Environment
 .env
 .env.local
