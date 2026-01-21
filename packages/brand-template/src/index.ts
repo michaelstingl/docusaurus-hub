@@ -5,8 +5,7 @@
  *   import { brand, themeConfig, cssPath } from '@scope/docusaurus-brand';
  */
 
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import * as path from 'path';
 
 // Re-export types
 export type {
@@ -31,33 +30,31 @@ export {
   hslToHex,
 } from './css-generator';
 
-// Get package directory for asset paths
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const packageRoot = join(__dirname, '..');
+// __dirname in compiled output is dist/, so css is at dist/css/
+// and theme is at dist/theme/
 
 /**
  * Path to the generated brand CSS file.
  * Use in docusaurus.config.ts:
  *   theme: { customCss: [cssPath, './src/css/custom.css'] }
  */
-export const cssPath = join(packageRoot, 'css', 'brand.css');
+export const cssPath = path.join(__dirname, 'css', 'brand.css');
 
 /**
  * Path to the ColorModeInit client module.
  * Use in docusaurus.config.ts:
  *   clientModules: [colorModeInitPath]
  */
-export const colorModeInitPath = join(__dirname, 'theme', 'ColorModeInit.js');
+export const colorModeInitPath = path.join(__dirname, 'theme', 'ColorModeInit.js');
 
 /**
  * Asset paths for logo and favicon.
  * Copy these to your static folder or reference directly.
  */
 export const assets = {
-  logo: join(packageRoot, 'assets', 'logo.svg'),
-  logoDark: join(packageRoot, 'assets', 'logo-dark.svg'),
-  favicon: join(packageRoot, 'assets', 'favicon.ico'),
+  logo: path.join(__dirname, 'assets', 'logo.svg'),
+  logoDark: path.join(__dirname, 'assets', 'logo-dark.svg'),
+  favicon: path.join(__dirname, 'assets', 'favicon.ico'),
 };
 
 /**

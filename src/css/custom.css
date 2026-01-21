@@ -1,9 +1,6 @@
 /**
- * Custom CSS
- * Brand styles are auto-generated from brand.config.ts
- * Run: bun run brand
+ * Custom CSS overrides
+ * Brand styles come from @example/docusaurus-brand package
  */
 
-@import './brand.generated.css';
-
-/* Add any manual overrides below */
+/* Add project-specific overrides below */

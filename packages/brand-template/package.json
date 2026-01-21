@@ -4,11 +4,10 @@
   "description": "Example Docusaurus brand package - customize colors, fonts, and navbar style",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./css": "./dist/css/brand.css",
     "./theme/*": "./dist/theme/*",

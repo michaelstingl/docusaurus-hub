@@ -1,11 +1,19 @@
 /**
  * Docusaurus configuration
  * Docs instances are defined in docs.config.ts
+ * Brand styling from @example/docusaurus-brand package
  */
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import {docs} from './docs.config';
+
+// Import from brand package
+import {
+  cssPath,
+  colorModeInitPath,
+  brandThemeConfig,
+} from '@example/docusaurus-brand';
 
 // Environment variables (set automatically in GitHub Actions)
 const {
@@ -32,8 +40,8 @@ const config: Config = {
   future: { v4: true, experimental_faster: true },
   i18n: { defaultLocale: 'en', locales: ['en'] },
 
-  // Initialize color mode from OS preference on first visit (2-way toggle)
-  clientModules: ['./src/theme/ColorModeInit.js'],
+  // Initialize color mode from OS preference (from brand package)
+  clientModules: [colorModeInitPath],
 
   presets: [
     [
@@ -47,7 +55,8 @@ const config: Config = {
           editUrl,
         },
         blog: false,
-        theme: { customCss: './src/css/custom.css' },
+        // Use CSS from brand package + local overrides
+        theme: { customCss: [cssPath, './src/css/custom.css'] },
       } satisfies Preset.Options,
     ],
   ],
@@ -65,13 +74,10 @@ const config: Config = {
   ]),
 
   themeConfig: {
-    colorMode: {
-      defaultMode: 'light',
-      disableSwitch: false,
-      respectPrefersColorScheme: false,  // 2-way toggle; OS preference via ColorModeInit
-    },
+    // Spread brand theme config
+    ...brandThemeConfig,
     navbar: {
-      title: '',  // Empty: logo is sufficient, first nav item shows context
+      ...brandThemeConfig.navbar,
       logo: { alt: 'Logo', src: 'img/logo.svg', srcDark: 'img/logo.svg' },
       items: [
         ...docs.map((doc, i) => ({

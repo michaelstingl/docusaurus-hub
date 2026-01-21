@@ -3,14 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "brand": "bun scripts/generate-brand-css.ts",
-    "start": "bun run brand && docusaurus start",
-    "build": "bun run brand && docusaurus build",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@example/docusaurus-brand": "file:./packages/brand-template",
     "@docusaurus/core": "3.9.2",
     "@docusaurus/faster": "^3.9.2",
     "@docusaurus/preset-classic": "3.9.2",
