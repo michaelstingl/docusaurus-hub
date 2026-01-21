@@ -77,3 +77,8 @@ export const brandThemeConfig = {
     title: '', // Empty: logo is shown, first nav item indicates context
   },
 };
+
+/**
+ * Alias for brandThemeConfig (matches RFC #5 spec)
+ */
+export const themeConfig = brandThemeConfig;
