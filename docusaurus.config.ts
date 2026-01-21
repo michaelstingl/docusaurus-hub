@@ -39,6 +39,7 @@ const config: Config = {
   onBrokenLinks: 'throw',
   future: { v4: true, experimental_faster: true },
   i18n: { defaultLocale: 'en', locales: ['en'] },
+  markdown: { format: 'detect' },
 
   // Initialize color mode from OS preference (from brand package)
   clientModules: [colorModeInitPath],
