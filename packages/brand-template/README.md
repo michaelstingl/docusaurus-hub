@@ -84,7 +84,8 @@ export const brand: BrandConfig = {
     heading: { family: 'Inter', weight: 600 },
     body: { family: 'Inter', weights: [400, 700] },
   },
-  navbar: 'dark',  // 'dark' | 'light' | 'auto'
+  navbar: 'dark',     // 'dark' | 'light' | 'auto'
+  darkMode: 'neutral', // 'neutral' | 'branded'
 };
 ```
 
@@ -111,6 +112,13 @@ Fonts are loaded from Google Fonts. Specify:
 | `'dark'` | White text on dark background (uses primary color) |
 | `'light'` | Dark text on light background |
 | `'auto'` | Follows the current theme |
+
+### Dark Mode Style
+
+| Value | Description |
+|-------|-------------|
+| `'neutral'` | Traditional dark gray background (default, easier on eyes) |
+| `'branded'` | Brand primary color as background (intense, fully branded) |
 
 ### Assets
 

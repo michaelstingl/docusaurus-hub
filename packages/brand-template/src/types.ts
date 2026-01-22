@@ -34,6 +34,9 @@ export type BrandFonts = {
 
 export type NavbarStyle = 'dark' | 'light' | 'auto';
 
+/** Dark mode background style */
+export type DarkModeStyle = 'branded' | 'neutral';
+
 export type BrandConfig = {
   /** Brand color palette */
   colors: BrandColors;
@@ -41,6 +44,8 @@ export type BrandConfig = {
   fonts: BrandFonts;
   /** Navbar style: 'dark' = light text on dark bg, 'light' = dark text, 'auto' = follows theme */
   navbar: NavbarStyle;
+  /** Dark mode style: 'branded' = brand color background, 'neutral' = dark gray background */
+  darkMode?: DarkModeStyle;
 };
 
 /**

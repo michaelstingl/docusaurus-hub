@@ -15,6 +15,7 @@ export type {
   BrandFont,
   BrandFontWithWeights,
   NavbarStyle,
+  DarkModeStyle,
   ColorVariants,
 } from './types';
 

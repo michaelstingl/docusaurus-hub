@@ -83,11 +83,23 @@ export function generateGoogleFontsUrl(config: BrandConfig): string {
 }
 
 /**
+ * Generate very dark variant of a color for dark mode backgrounds
+ */
+function generateDarkModeBackground(hex: string): { bg: string; surface: string } {
+  const [h, s] = hexToHsl(hex);
+  return {
+    bg: hslToHex(h, Math.min(s, 30), 12),      // Very dark, reduced saturation
+    surface: hslToHex(h, Math.min(s, 35), 18), // Slightly lighter surface
+  };
+}
+
+/**
  * Generate complete CSS from brand configuration
  */
 export function generateBrandCss(config: BrandConfig): string {
   const primary = generateColorVariants(config.colors.primary);
   const neutral = generateColorVariants(config.colors.neutral);
+  const brandedDark = generateDarkModeBackground(config.colors.primary);
   const fontsUrl = generateGoogleFontsUrl(config);
 
   let css = `/**
@@ -123,8 +135,11 @@ export function generateBrandCss(config: BrandConfig): string {
 
 /* Dark mode */
 [data-theme='dark'] {
-  --ifm-background-color: var(--brand-primary);
-  --ifm-background-surface-color: ${primary.light};
+${config.darkMode === 'branded' ? `  /* Branded dark mode - very dark shade of brand color */
+  --ifm-background-color: ${brandedDark.bg};
+  --ifm-background-surface-color: ${brandedDark.surface};` : `  /* Neutral dark mode - traditional dark background */
+  --ifm-background-color: #1b1b1d;
+  --ifm-background-surface-color: #242526;`}
   --ifm-color-primary: var(--brand-neutral);
   --ifm-color-primary-light: ${neutral.light};
   --ifm-color-primary-lighter: ${neutral.lighter};
