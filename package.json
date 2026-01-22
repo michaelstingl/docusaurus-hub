@@ -3,17 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build:brand": "cd packages/brand-template && bun run build",
-    "prestart": "bun run build:brand",
     "start": "docusaurus start",
-    "prebuild": "bun run build:brand",
     "build": "docusaurus build",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@example/docusaurus-brand": "file:./packages/brand-template",
+    "@michaelstingl/docusaurus-hub-brand": "github:michaelstingl/docusaurus-hub-brand-package",
     "@docusaurus/core": "3.9.2",
     "@docusaurus/faster": "^3.9.2",
     "@docusaurus/preset-classic": "3.9.2",

@@ -13,7 +13,7 @@ import {
   cssPath,
   colorModeInitPath,
   brandThemeConfig,
-} from '@example/docusaurus-brand';
+} from '@michaelstingl/docusaurus-hub-brand';
 
 // Environment variables (set automatically in GitHub Actions)
 const {
