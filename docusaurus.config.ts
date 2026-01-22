@@ -37,7 +37,9 @@ const config: Config = {
   url: SITE_URL,
   baseUrl: BASE_URL,
   onBrokenLinks: 'throw',
-  future: { v4: true, experimental_faster: true },
+  // TODO: Re-enable experimental_faster when Rspack "emitting after emit" bug is fixed
+  // See: https://github.com/facebook/docusaurus/discussions/11140
+  future: { v4: true, experimental_faster: false },
   i18n: { defaultLocale: 'en', locales: ['en'] },
   markdown: { format: 'detect' },
 

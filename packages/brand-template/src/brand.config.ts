@@ -37,7 +37,7 @@ export const brand: BrandConfig = {
   // - 'dark': White text on dark background (uses primary color)
   // - 'light': Dark text on light background
   // - 'auto': Follows the current theme
-  navbar: 'auto',
+  navbar: 'dark',
 
   // Dark mode style:
   // - 'branded': Brand color as background (intense, fully branded)

@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "build:brand": "cd packages/brand-template && bun run build",
+    "prestart": "bun run build:brand",
     "start": "docusaurus start",
+    "prebuild": "bun run build:brand",
     "build": "docusaurus build",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
