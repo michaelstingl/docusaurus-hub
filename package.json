@@ -10,7 +10,6 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@michaelstingl/docusaurus-hub-brand": "github:michaelstingl/docusaurus-hub-brand-package",
     "@docusaurus/core": "3.9.2",
     "@docusaurus/faster": "^3.9.2",
     "@docusaurus/preset-classic": "3.9.2",
@@ -19,6 +18,9 @@
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
+  },
+  "optionalDependencies": {
+    "DISABLED@michaelstingl/docusaurus-hub-brand": "github:michaelstingl/docusaurus-hub-brand-package"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.9.2",

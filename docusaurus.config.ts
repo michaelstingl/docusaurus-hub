@@ -1,19 +1,27 @@
 /**
  * Docusaurus configuration
  * Docs instances are defined in docs.config.ts
- * Brand styling from @example/docusaurus-brand package
+ * Brand styling is optional - falls back to Docusaurus defaults
  */
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import {docs} from './docs.config';
 
-// Import from brand package
-import {
-  cssPath,
-  colorModeInitPath,
-  brandThemeConfig,
-} from '@michaelstingl/docusaurus-hub-brand';
+// Optional brand package - falls back to Docusaurus defaults if not installed
+let cssPath: string | undefined;
+let colorModeInitPath: string | undefined;
+let brandThemeConfig: Partial<Preset.ThemeConfig> = {};
+
+try {
+  const brand = require('@michaelstingl/docusaurus-hub-brand');
+  cssPath = brand.cssPath;
+  colorModeInitPath = brand.colorModeInitPath;
+  brandThemeConfig = brand.brandThemeConfig || {};
+} catch {
+  // Brand package not installed - using Docusaurus defaults
+  console.log('ℹ️  No brand package installed, using Docusaurus defaults');
+}
 
 // Environment variables (set automatically in GitHub Actions)
 const {
@@ -43,8 +51,8 @@ const config: Config = {
   i18n: { defaultLocale: 'en', locales: ['en'] },
   markdown: { format: 'detect' },
 
-  // Initialize color mode from OS preference (from brand package)
-  clientModules: [colorModeInitPath],
+  // Initialize color mode from OS preference (if brand package installed)
+  clientModules: [colorModeInitPath].filter(Boolean) as string[],
 
   presets: [
     [
@@ -58,8 +66,8 @@ const config: Config = {
           editUrl,
         },
         blog: false,
-        // Use CSS from brand package + local overrides
-        theme: { customCss: [cssPath, './src/css/custom.css'] },
+        // Use CSS from brand package (if installed) + local overrides
+        theme: { customCss: [cssPath, './src/css/custom.css'].filter(Boolean) as string[] },
       } satisfies Preset.Options,
     ],
   ],
@@ -77,10 +85,10 @@ const config: Config = {
   ]),
 
   themeConfig: {
-    // Spread brand theme config
+    // Spread brand theme config (empty object if no brand package)
     ...brandThemeConfig,
     navbar: {
-      ...brandThemeConfig.navbar,
+      ...(brandThemeConfig.navbar || {}),
       logo: { alt: 'Logo', src: 'img/logo.svg', srcDark: 'img/logo.svg' },
       items: [
         ...docs.map((doc, i) => ({

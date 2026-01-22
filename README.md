@@ -81,6 +81,22 @@ bun install @docusaurus/core@latest @docusaurus/preset-classic@latest \
 bun run clear && bun run build
 ```
 
+## Brand Packages (Optional)
+
+Custom branding is optional. Without a brand package, Docusaurus defaults are used.
+
+### Install a Brand Package
+
+```bash
+bun add @michaelstingl/docusaurus-hub-brand@github:michaelstingl/docusaurus-hub-brand-package
+```
+
+### Create Your Own Brand Package
+
+Fork [docusaurus-hub-brand-package](https://github.com/michaelstingl/docusaurus-hub-brand-package) and customize:
+- `src/brand.config.ts` - Colors, fonts, navbar style
+- `src/assets/` - Logo files
+
 ## Environment Variables
 
 All optional. Set in `.env` locally or auto-configured in GitHub Actions.
