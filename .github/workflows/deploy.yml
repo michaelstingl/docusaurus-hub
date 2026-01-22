@@ -7,6 +7,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      brand_package:
+        description: 'Brand package (e.g. @michaelstingl/docusaurus-hub-brand@github:michaelstingl/docusaurus-hub-brand-package). Leave empty for vanilla.'
+        required: false
+        default: ''
+        type: string
 
 permissions:
   contents: read
@@ -26,6 +32,10 @@ jobs:
       - uses: oven-sh/setup-bun@v2
 
       - run: bun install --frozen-lockfile
+
+      - name: Install brand package
+        if: ${{ inputs.brand_package != '' }}
+        run: bun add ${{ inputs.brand_package }}
 
       - name: Set site URL
         id: url
