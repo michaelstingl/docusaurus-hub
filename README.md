@@ -66,6 +66,52 @@ Include docs from external repositories:
 
 Site URL: `https://{owner}.github.io/{repo}/`
 
+## Mermaid Diagrams
+
+Mermaid is enabled by default. Use fenced code blocks in markdown:
+
+````markdown
+```mermaid
+flowchart LR
+  A[Start] --> B[Process] --> C[End]
+```
+````
+
+Supported diagram types: flowchart, sequence, state, class, gantt, pie, ER, and more. See [Mermaid docs](https://mermaid.js.org/) for syntax.
+
+Configure themes in `docusaurus.config.ts`:
+
+```ts
+themeConfig: {
+  mermaid: {
+    theme: { light: 'neutral', dark: 'forest' },
+  },
+},
+```
+
+## Print / PDF Export
+
+Print styles are included in `src/css/custom.css` (`@media print`). When printing or exporting to PDF:
+
+- Navbar, sidebar, breadcrumbs, TOC, and footer are hidden
+- Content expands to full page width
+- Tables use full width with repeated headers
+- Page breaks avoid splitting tables, code blocks, and admonitions
+
+**Browser print:** `Cmd+P` / `Ctrl+P` works out of the box.
+
+**Automated PDF export** with [Playwright](https://playwright.dev/):
+
+```js
+const { chromium } = require('playwright');
+const browser = await chromium.launch();
+const page = await browser.newPage();
+await page.goto('http://localhost:3000/my-doc', { waitUntil: 'networkidle' });
+await page.pdf({ path: 'output.pdf', format: 'A4', printBackground: true,
+  margin: { top: '20mm', bottom: '20mm', left: '18mm', right: '18mm' } });
+await browser.close();
+```
+
 ## Update Docusaurus
 
 ```bash
@@ -74,7 +120,8 @@ bun outdated
 
 # Update all Docusaurus packages
 bun install @docusaurus/core@latest @docusaurus/preset-classic@latest \
-            @docusaurus/faster@latest @docusaurus/module-type-aliases@latest \
+            @docusaurus/faster@latest @docusaurus/theme-mermaid@latest \
+            @docusaurus/module-type-aliases@latest \
             @docusaurus/tsconfig@latest @docusaurus/types@latest
 
 # Test build
