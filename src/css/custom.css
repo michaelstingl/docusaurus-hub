@@ -4,3 +4,151 @@
  */
 
 /* Add project-specific overrides below */
+
+/* ══════════════════════════════════════════════════════════
+   Print Styles - PDF Export via Browser Print / Playwright
+   ══════════════════════════════════════════════════════════ */
+@media print {
+  /* ── Page Setup ─────────────────────────────────────── */
+  @page {
+    size: A4;
+    margin: 20mm 18mm 25mm 18mm;
+  }
+
+  /* ── Hide UI Chrome ─────────────────────────────────── */
+  .navbar,
+  footer,
+  [class*="docSidebarContainer"],
+  [class*="tocMobile"],
+  [class*="tocCollapsible"],
+  [class*="tableOfContents"],
+  [class*="breadcrumbsContainer"],
+  [class*="backToTopButton"],
+  [class*="skipToContent"],
+  [class*="colorModeToggle"],
+  [class*="announcementBar"],
+  [class*="pagination-nav"],
+  .hash-link,
+  .theme-doc-footer,
+  .theme-edit-this-page {
+    display: none !important;
+  }
+
+  /* ── Layout: Full Width ─────────────────────────────── */
+  [class*="docMainContainer"],
+  [class*="docItemContainer"],
+  [class*="docPage"],
+  main,
+  .container,
+  .row,
+  .col,
+  [class*="docItemCol"] {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    flex: 0 0 100% !important;
+  }
+
+  [class*="docRoot"] {
+    display: block !important;
+  }
+
+  /* ── Typography ─────────────────────────────────────── */
+  body {
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #000 !important;
+    background: #fff !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #1c1e21 !important;
+    break-after: avoid;
+  }
+
+  h1 { font-size: 20pt; }
+  h2 { font-size: 15pt; margin-top: 18pt; }
+  h3 { font-size: 12pt; margin-top: 14pt; }
+
+  /* ── Links ───────────────────────────────────────────── */
+  a {
+    color: #1c1e21 !important;
+    text-decoration: underline !important;
+  }
+
+  /* ── Tables ─────────────────────────────────────────── */
+  table {
+    font-size: 9pt;
+    border-collapse: collapse;
+    width: 100% !important;
+    min-width: 100% !important;
+    table-layout: auto;
+    break-inside: auto;
+    display: table !important;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr {
+    break-inside: avoid;
+  }
+
+  th, td {
+    border: 1px solid #ccc !important;
+    padding: 4pt 6pt;
+  }
+
+  th {
+    background-color: #f5f6f7 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ── Admonitions / Blockquotes ──────────────────────── */
+  .alert, blockquote, [class*="admonition"] {
+    break-inside: avoid;
+    border-left: 3pt solid #1c1e21;
+    background-color: #f5f6f7 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    padding: 8pt 12pt;
+    margin: 8pt 0;
+  }
+
+  /* ── Code Blocks ────────────────────────────────────── */
+  pre, code {
+    font-size: 8.5pt;
+    break-inside: avoid;
+  }
+
+  pre {
+    border: 1px solid #ddd;
+    padding: 8pt;
+    background-color: #f8f8f8 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* ── Images ─────────────────────────────────────────── */
+  img {
+    max-width: 100% !important;
+    break-inside: avoid;
+  }
+
+  /* ── Page Break Control ─────────────────────────────── */
+  p, li {
+    widows: 3;
+    orphans: 3;
+  }
+
+  /* ── Checklists ─────────────────────────────────────── */
+  .contains-task-list {
+    list-style: none;
+    padding-left: 0;
+  }
+}
