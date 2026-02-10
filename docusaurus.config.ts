@@ -49,7 +49,8 @@ const config: Config = {
   // See: https://github.com/facebook/docusaurus/discussions/11140
   future: { v4: true, experimental_faster: false },
   i18n: { defaultLocale: 'en', locales: ['en'] },
-  markdown: { format: 'detect' },
+  markdown: { format: 'detect', mermaid: true },
+  themes: ['@docusaurus/theme-mermaid'],
 
   // Initialize color mode from OS preference (if brand package installed)
   clientModules: [colorModeInitPath].filter(Boolean) as string[],
