@@ -35,31 +35,41 @@ To add a new docs section: add one entry to `docs.config.ts` and create the cont
 
 Docs content paths in `docs.config.ts` can point to local folders (`content/docs`), relative paths to other repos (`../../other-repo/docs`), or absolute paths. In CI, external repos are checked out separately (see `deploy.yml`).
 
-### Companion packages
+### Optional packages (graceful degradation)
 
-Two optional packages from [`github.com/michaelstingl/docusaurus-hub-*`](https://github.com/michaelstingl?tab=repositories&q=docusaurus-hub). Both are generic and reusable.
+Both optional packages integrate via **graceful degradation** — they enhance the hub when installed but everything works without them. No feature flags, no conditional logic in project code.
+
+| Package | Integration | Not installed |
+|---------|------------|---------------|
+| Content-calc | Async `import()` in config → auto-discovers `plugins/calc/*.mjs` | No preprocessing, no error |
+| Brand | `require()` with try/catch → injects CSS, theme config, color mode | Docusaurus defaults, no error |
 
 #### Content-calc (`@michaelstingl/docusaurus-hub-content-calc`)
 
 **Repo:** [`github.com/michaelstingl/docusaurus-hub-content-calc`](https://github.com/michaelstingl/docusaurus-hub-content-calc)
 
-Generic markdown preprocessor that replaces `{{key}}` placeholders with computed values. Provides `createPreprocessor()` factory and locale-aware number formatters via `createFormatters(locale)`.
+Replaces `{{key}}` placeholders in markdown with computed values. Provides locale-aware number formatters via `createFormatters(locale)`.
 
-Each calculation module exports `pathPattern` (which files to process) and `values` (key-value map). Modules are registered in `docusaurus.config.ts` via `createPreprocessor([...modules])`.
+**How it integrates:** `docusaurus.config.ts` is an async config function. At startup it calls `createAutoPreprocessor('./plugins/calc')` which:
 
-To add a calculation module: create a `.mjs` file in `plugins/` exporting `pathPattern` and `values`, then add it to the `createPreprocessor()` array in `docusaurus.config.ts`.
+1. Scans `plugins/calc/` for `.mjs` files
+2. Dynamically imports each, checks for `pathPattern` + `values` exports
+3. Returns a Docusaurus preprocessor (or `undefined` if no modules found)
+4. Broken modules log a warning and are skipped
+
+**To add a calculation module:** drop a `.mjs` file into `plugins/calc/`. No config changes needed. See `plugins/calc/example-pricing.mjs` for the pattern.
 
 #### Brand (`@michaelstingl/docusaurus-hub-brand`)
 
 **Repo:** [`github.com/michaelstingl/docusaurus-hub-brand-package`](https://github.com/michaelstingl/docusaurus-hub-brand-package)
 
-Optional branding package. The config uses try/catch to gracefully fall back to Docusaurus defaults when not installed. Exports:
+**How it integrates:** `docusaurus.config.ts` uses `require()` inside try/catch at the top level. When installed, the brand package provides:
 
-- `cssPath` — Generated CSS with color variants, fonts (Google Fonts), dark mode styles
+- `cssPath` — Generated CSS (color variants, Google Fonts, dark mode)
 - `colorModeInitPath` — Client module for OS color mode preference
-- `brandThemeConfig` — Theme config fragment (navbar style, color mode settings)
+- `brandThemeConfig` — Theme config fragment (spread into `themeConfig`)
 
-Fork the repo and configure in `src/brand.config.ts` (colors, fonts, navbar style, dark mode). Build with `bun run build` to regenerate `dist/`.
+**To customize:** Fork the brand-package repo, edit `src/brand.config.ts` (colors, fonts, navbar style), run `bun run build`.
 
 ### Key features
 

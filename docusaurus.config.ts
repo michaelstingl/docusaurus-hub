@@ -2,6 +2,7 @@
  * Docusaurus configuration
  * Docs instances are defined in docs.config.ts
  * Brand styling is optional - falls back to Docusaurus defaults
+ * Calc modules in plugins/calc/ are auto-discovered
  */
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
@@ -38,83 +39,94 @@ const editUrl = GITHUB_REPOSITORY
   ? `https://github.com/${GITHUB_REPOSITORY}/tree/main/`
   : undefined;
 
-const config: Config = {
-  title: SITE_TITLE,
-  tagline: SITE_TAGLINE,
-  favicon: 'img/favicon.ico',
-  url: SITE_URL,
-  baseUrl: BASE_URL,
-  onBrokenLinks: 'throw',
-  // TODO: Re-enable experimental_faster when Rspack "emitting after emit" bug is fixed
-  // See: https://github.com/facebook/docusaurus/discussions/11140
-  future: { v4: true, experimental_faster: false },
-  i18n: { defaultLocale: 'en', locales: ['en'] },
-  markdown: { format: 'detect', mermaid: true },
-  themes: ['@docusaurus/theme-mermaid'],
+export default async function createConfigAsync(): Promise<Config> {
+  // Auto-discover calc modules from plugins/calc/
+  let preprocessor: ((args: {fileContent: string; filePath: string}) => string) | undefined;
+  try {
+    const {createAutoPreprocessor} = await import(
+      '@michaelstingl/docusaurus-hub-content-calc'
+    );
+    preprocessor = await createAutoPreprocessor('./plugins/calc');
+  } catch {
+    // content-calc package not installed - no preprocessing
+  }
 
-  // Initialize color mode from OS preference (if brand package installed)
-  clientModules: [colorModeInitPath].filter(Boolean) as string[],
+  return {
+    title: SITE_TITLE,
+    tagline: SITE_TAGLINE,
+    favicon: 'img/favicon.ico',
+    url: SITE_URL,
+    baseUrl: BASE_URL,
+    onBrokenLinks: 'throw',
+    // TODO: Re-enable experimental_faster when Rspack "emitting after emit" bug is fixed
+    // See: https://github.com/facebook/docusaurus/discussions/11140
+    future: { v4: true, experimental_faster: false },
+    i18n: { defaultLocale: 'en', locales: ['en'] },
+    markdown: { format: 'detect', mermaid: true, preprocessor },
+    themes: ['@docusaurus/theme-mermaid'],
 
-  presets: [
-    [
-      'classic',
-      {
-        docs: {
-          path: mainDocs.path,
-          routeBasePath: mainDocs.route,
-          sidebarPath: './sidebars.ts',
-          sidebarCollapsed: false,
-          editUrl,
-        },
-        blog: false,
-        // Use CSS from brand package (if installed) + local overrides
-        theme: { customCss: [cssPath, './src/css/custom.css'].filter(Boolean) as string[] },
-      } satisfies Preset.Options,
-    ],
-  ],
+    // Initialize color mode from OS preference (if brand package installed)
+    clientModules: [colorModeInitPath].filter(Boolean) as string[],
 
-  plugins: extraDocs.map((doc) => [
-    '@docusaurus/plugin-content-docs',
-    {
-      id: doc.id,
-      path: doc.path,
-      routeBasePath: doc.route,
-      sidebarPath: './sidebars.ts',
-      sidebarCollapsed: false,
-      editUrl,
-    },
-  ]),
-
-  themeConfig: {
-    // Spread brand theme config (empty object if no brand package)
-    ...brandThemeConfig,
-    navbar: {
-      ...(brandThemeConfig.navbar || {}),
-      logo: { alt: 'Logo', src: 'img/logo.svg', srcDark: 'img/logo.svg' },
-      items: [
-        ...docs.map((doc, i) => ({
-          type: 'docSidebar' as const,
-          sidebarId: doc.id,
-          ...(i > 0 && { docsPluginId: doc.id }),
-          label: doc.label,
-          position: 'left' as const,
-        })),
+    presets: [
+      [
+        'classic',
         {
-          href: GITHUB_REPOSITORY ? `https://github.com/${GITHUB_REPOSITORY}` : 'https://github.com',
-          label: 'GitHub',
-          position: 'right' as const,
-        },
+          docs: {
+            path: mainDocs.path,
+            routeBasePath: mainDocs.route,
+            sidebarPath: './sidebars.ts',
+            sidebarCollapsed: false,
+            editUrl,
+          },
+          blog: false,
+          // Use CSS from brand package (if installed) + local overrides
+          theme: { customCss: [cssPath, './src/css/custom.css'].filter(Boolean) as string[] },
+        } satisfies Preset.Options,
       ],
-    },
-    footer: {
-      style: 'dark',
-      copyright: `Copyright © ${new Date().getFullYear()}. Built with Docusaurus.`,
-    },
-    prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
-    },
-  } satisfies Preset.ThemeConfig,
-};
+    ],
 
-export default config;
+    plugins: extraDocs.map((doc) => [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: doc.id,
+        path: doc.path,
+        routeBasePath: doc.route,
+        sidebarPath: './sidebars.ts',
+        sidebarCollapsed: false,
+        editUrl,
+      },
+    ]),
+
+    themeConfig: {
+      // Spread brand theme config (empty object if no brand package)
+      ...brandThemeConfig,
+      navbar: {
+        ...(brandThemeConfig.navbar || {}),
+        logo: { alt: 'Logo', src: 'img/logo.svg', srcDark: 'img/logo.svg' },
+        items: [
+          ...docs.map((doc, i) => ({
+            type: 'docSidebar' as const,
+            sidebarId: doc.id,
+            ...(i > 0 && { docsPluginId: doc.id }),
+            label: doc.label,
+            position: 'left' as const,
+          })),
+          {
+            href: GITHUB_REPOSITORY ? `https://github.com/${GITHUB_REPOSITORY}` : 'https://github.com',
+            label: 'GitHub',
+            position: 'right' as const,
+          },
+        ],
+      },
+      footer: {
+        style: 'dark',
+        copyright: `Copyright © ${new Date().getFullYear()}. Built with Docusaurus.`,
+      },
+      prism: {
+        theme: prismThemes.github,
+        darkTheme: prismThemes.dracula,
+      },
+    } satisfies Preset.ThemeConfig,
+  };
+}

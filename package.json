@@ -15,6 +15,7 @@
     "@docusaurus/preset-classic": "3.9.2",
     "@docusaurus/theme-mermaid": "^3.9.2",
     "@mdx-js/react": "^3.0.0",
+    "@michaelstingl/docusaurus-hub-content-calc": "github:michaelstingl/docusaurus-hub-content-calc",
     "clsx": "^2.0.0",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
