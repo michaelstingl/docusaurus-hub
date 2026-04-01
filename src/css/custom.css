@@ -1,9 +1,16 @@
 /**
  * Custom CSS overrides
- * Brand styles come from @example/docusaurus-brand package
+ * Brand styles come from optional @michaelstingl/docusaurus-hub-brand package
  */
 
-/* Add project-specific overrides below */
+/* ══════════════════════════════════════════════════════════
+   No-Print: Internal sections hidden in PDF, visible on web
+   ══════════════════════════════════════════════════════════ */
+.no-print {
+  border-left: 3px dashed #d0d0d0;
+  padding-left: 12px;
+  opacity: 0.6;
+}
 
 /* ══════════════════════════════════════════════════════════
    Print Styles - PDF Export via Browser Print / Playwright
@@ -13,6 +20,11 @@
   @page {
     size: A4;
     margin: 20mm 18mm 25mm 18mm;
+  }
+
+  /* ── Hide No-Print Sections ─────────────────────────── */
+  .no-print {
+    display: none !important;
   }
 
   /* ── Hide UI Chrome ─────────────────────────────────── */
@@ -68,13 +80,23 @@
   }
 
   h1 { font-size: 20pt; }
-  h2 { font-size: 15pt; margin-top: 18pt; }
-  h3 { font-size: 12pt; margin-top: 14pt; }
+  h2 { font-size: 15pt; }
+  h3 { font-size: 12pt; }
 
   /* ── Links ───────────────────────────────────────────── */
-  a {
-    color: #1c1e21 !important;
-    text-decoration: underline !important;
+
+  /* All links: reset to normal text */
+  a, a:visited, a:hover {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+
+  /* External links: show URL in parentheses */
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #555;
+    word-break: break-all;
   }
 
   /* ── Tables ─────────────────────────────────────────── */
@@ -99,16 +121,19 @@
   th, td {
     border: 1px solid #ccc !important;
     padding: 4pt 6pt;
+    text-align: left !important;
+    vertical-align: top;
   }
 
   th {
     background-color: #f5f6f7 !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    text-align: left !important;
   }
 
   /* ── Admonitions / Blockquotes ──────────────────────── */
-  .alert, blockquote, [class*="admonition"] {
+  .alert, blockquote {
     break-inside: avoid;
     border-left: 3pt solid #1c1e21;
     background-color: #f5f6f7 !important;
@@ -116,6 +141,25 @@
     print-color-adjust: exact;
     padding: 8pt 12pt;
     margin: 8pt 0;
+  }
+
+  /* Admonitions: only style outer container, reset children */
+  [class*="theme-admonition"] {
+    break-inside: avoid;
+    border: 1px solid #ccc !important;
+    border-left: 3pt solid #555 !important;
+    background-color: #f5f6f7 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    padding: 8pt 12pt;
+    margin: 8pt 0;
+  }
+
+  [class*="theme-admonition"] [class*="admonition"] {
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: none !important;
   }
 
   /* ── Code Blocks ────────────────────────────────────── */
@@ -144,6 +188,22 @@
   p, li {
     widows: 3;
     orphans: 3;
+    break-inside: avoid;
+  }
+
+  ul, ol {
+    break-before: avoid;
+    break-inside: avoid;
+  }
+
+  /* Keep h3 sections together (heading + table + following text) */
+  h3 {
+    break-before: auto;
+    break-after: avoid;
+  }
+
+  h3 + table {
+    break-before: avoid;
   }
 
   /* ── Checklists ─────────────────────────────────────── */
