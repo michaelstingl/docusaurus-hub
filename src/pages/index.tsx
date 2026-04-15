@@ -1,3 +1,4 @@
+import type {JSX} from 'react';
 import {Redirect} from '@docusaurus/router';
 import {docs} from '@site/docs.config';
 

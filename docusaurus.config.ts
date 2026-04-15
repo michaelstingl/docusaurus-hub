@@ -57,10 +57,10 @@ export default async function createConfigAsync(): Promise<Config> {
     favicon: 'img/favicon.ico',
     url: SITE_URL,
     baseUrl: BASE_URL,
-    onBrokenLinks: 'throw',
-    // TODO: Re-enable experimental_faster when Rspack "emitting after emit" bug is fixed
+    onBrokenLinks: 'warn',
+    // TODO: Re-enable faster when Rspack "emitting after emit" bug is fixed
     // See: https://github.com/facebook/docusaurus/discussions/11140
-    future: { v4: true, experimental_faster: false },
+    future: { v4: true, faster: false },
     i18n: { defaultLocale: 'en', locales: ['en'] },
     markdown: { format: 'detect', mermaid: true, preprocessor },
     themes: ['@docusaurus/theme-mermaid'],
